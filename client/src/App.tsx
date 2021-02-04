@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { createContext } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import { Browse, Home, SignIn, Token } from './pages';
+
+export const AuthContext: any = createContext('');
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router>
+			<Switch>
+				<Route exact path='/'>
+					<Home />
+				</Route>
+				<Route path='/token'>
+					<Token />
+				</Route>
+				<Route path='/signin'>
+					<SignIn />
+				</Route>
+				<Route path='/browse'>
+					<Browse />
+				</Route>
+			</Switch>
+		</Router>
+	);
 }
 
 export default App;
