@@ -11,14 +11,29 @@ const Token: React.SFC<HomePageProps> = () => {
 
 	(async function getSession() {
 		localStorage.setItem('token', path[1]);
-		let token = localStorage.getItem('token');
+		let token = localStorage.getItem('token'),
+			apiKey = process.env.REACT_APP_LAST_FM_API_KEY,
+			secretKey = process.env.REACT_APP_LAST_FM_SHARED_SECRET;
 
 		let appSignature = md5(
-			`api_key${process.env.REACT_APP_LAST_FM_API_KEY}methodauth.getSessiontoken${token}${process.env.REACT_APP_LAST_FM_SHARED_SECRET}`
+			`api_key${apiKey}methodauth.getSessiontoken${token}${secretKey}`
 		);
 
-		const url = `http://ws.audioscrobbler.com/2.0/?method=auth.getSession&token=${token}&api_key=${process.env.REACT_APP_LAST_FM_API_KEY}&api_sig=${appSignature}&format=json`;
-		const response = await axios.get(url);
+		const params = {
+			token: token,
+			api_key: apiKey,
+			api_sig: appSignature,
+			format: 'json',
+		};
+
+		const url = `http://ws.audioscrobbler.com/2.0/?method=auth.getSession&token=${token}&api_key=${apiKey}&api_sig=${appSignature}&format=json`;
+
+		const response = await axios.get(
+			'http://ws.audioscrobbler.com/2.0/?method=auth.getSession',
+			{
+				params,
+			}
+		);
 		localStorage.setItem('url', url);
 		localStorage.setItem('name', response.data.session.name);
 		localStorage.setItem('key', response.data.session.key);
