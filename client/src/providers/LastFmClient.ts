@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { AlbumsSearch, SearchResults } from './interfaces/Search';
+import { AlbumsSearch } from './interfaces/Album';
+import { SearchResults } from './interfaces/Search';
 
 export class LastFMClient {
 	private readonly ALBUM_ENDPOINT = 'album';
